@@ -8,13 +8,15 @@
         </span>
         <el-breadcrumb separator="/">
             <transition-group name="breadcrumb">
+                <!-- 防止面包屑导航出现 首页/首页， v-if="route.name!='home'" -->
                 <el-breadcrumb-item
                     v-for="(route,i) in crumbList"
                     :key="route.name"
                     :to="{name:route.name}"
+                    v-if="route.name!='home'"
                     :class="{'is-last-link':i==crumbList.length-1}"
                 >
-                    {{route.name}}
+                    {{route.meta.name}}
                 </el-breadcrumb-item>
             </transition-group>
         </el-breadcrumb>
@@ -58,6 +60,7 @@ export default {
         },
         loginOut() {
             this.$store.commit('LOGIN_OUT')
+            /* 防止切换角色时addRoutes重复添加路由导致出现警告 */
             window.location.reload()
         }
     }

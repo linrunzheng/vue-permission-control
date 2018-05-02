@@ -11,55 +11,83 @@ import Goods from 'pages/goods-manage'
 import GoodsList from 'pages/goods-manage/goods-list'
 import GoodsClassify from 'pages/goods-manage/goods-classify'
 
+/* 需要权限判断的路由 */
 const dynamicRoutes = [
     {
         path: '/order',
         component: Order,
-        name: '订单管理',
+        name: 'order-manage',
+        meta: {
+            name: '订单管理'
+        },
         children: [
             {
                 path: 'list',
-                name: '订单列表',
-                component: OrderList
+                name: 'order-list',
+                component: OrderList,
+                meta: {
+                    name: '订单列表'
+                }
             },
             {
                 path: 'product',
-                name: '生产管理',
+                name: 'product-manage',
                 component: ProductManage,
+                meta: {
+                    name: '生产管理'
+                },
                 children: [
                     {
                         path: 'list',
-                        name: '生产列表',
-                        component: ProductionList
+                        name: 'product-list',
+                        component: ProductionList,
+                        meta: {
+                            name: '生产列表'
+                        }
                     },
                     {
                         path: 'review',
-                        name: '审核管理',
-                        component: ReviewManage
+                        name: 'review-manage',
+                        component: ReviewManage,
+                        meta: {
+                            name: '审核管理'
+                        }
                     }
                 ]
             },
             {
                 path: 'returnGoods',
-                name: '退货管理',
-                component: ReturnGoods
+                name: 'return-goods',
+                component: ReturnGoods,
+                meta: {
+                    name: '退货管理'
+                }
             }
         ]
     },
     {
         path: '/goods',
         component: Goods,
-        name: '产品管理',
+        name: 'goods',
+        meta: {
+            name: '产品管理'
+        },
         children: [
             {
                 path: 'list',
-                name: '产品列表',
-                component: GoodsList
+                name: 'goods-list',
+                component: GoodsList,
+                meta: {
+                    name: '产品列表'
+                }
             },
             {
                 path: 'classify',
-                name: '产品分类',
-                component: GoodsClassify
+                name: 'goods-classify',
+                component: GoodsClassify,
+                meta: {
+                    name: '产品分类'
+                }
             }
         ]
     }

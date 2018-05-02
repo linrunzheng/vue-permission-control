@@ -4,7 +4,7 @@
             <el-submenu :index="v.name" v-if="v.children&&v.children.length>0" :key="v.name">
                 <template slot="title">
                     <i class="iconfont icon-home"></i>
-                    <span>{{v.name}}</span>
+                    <span>{{v.meta.name}}</span>
                 </template>
                 <el-menu-item-group>
                     <my-nav :menuList="v.children"></my-nav>
@@ -12,7 +12,7 @@
             </el-submenu>
             <el-menu-item :key="v.name" :index="v.name" @click="gotoRoute(v.name)" v-else>
                 <i class="iconfont icon-home"></i>
-                <span slot="title">{{v.name}}</span>
+                <span slot="title">{{v.meta.name}}</span>
             </el-menu-item>
         </template>
     </div>
