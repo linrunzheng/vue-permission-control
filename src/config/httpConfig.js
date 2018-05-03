@@ -1,6 +1,5 @@
 import axios from 'axios'
 import store from '@/store/index.js'
-import router from '@/router/index.js'
 import baseURL from './baseUrl'
 import { Message } from 'element-ui'
 
@@ -44,9 +43,7 @@ instance.get = function(url, data, options) {
                             message: '登陆超时,请重新登录'
                         })
                         store.commit('LOGIN_OUT')
-                        router.replace({
-                            path: '/login'
-                        })
+                        window.location.reload()
                     } else {
                         Message.error({
                             message: '系统异常'
@@ -57,7 +54,6 @@ instance.get = function(url, data, options) {
             )
             .catch(e => {
                 console.log(e)
-                console.log(instance.get)
             })
     })
 }

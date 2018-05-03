@@ -3,7 +3,7 @@ import Router from 'vue-router'
 
 import Login from 'pages/login/login'
 import NotFound from 'pages/errorPage/404'
-import Forbidden from 'pages/errorPage/401'
+import Forbidden from 'pages/errorPage/403'
 import Layout from 'pages/layout/index'
 import Home from 'pages/home/index'
 
@@ -15,32 +15,38 @@ export default new Router({
         {
             path: '/login',
             component: Login
-        },
-        {
-            path: '/403',
-            component: Forbidden
         }
     ]
 })
 
-export const MainContainer = {
-    path: '',
-    component: Layout,
-    name: '首页',
-    redirect: 'home',
-    meta: {
-        requiresAuth: true
+/* 准备动态添加的路由 */
+export const DynamicRoutes = [
+    {
+        path: '',
+        component: Layout,
+        name: 'container',
+        redirect: 'home',
+        meta: {
+            requiresAuth: true,
+            name: '首页'
+        },
+        children: [
+            {
+                path: 'home',
+                component: Home,
+                name: 'home',
+                meta: {
+                    name: '首页'
+                }
+            }
+        ]
     },
-    children: [
-        {
-            path: 'home',
-            component: Home,
-            name: '首页2'
-        }
-    ]
-}
-
-export const NotFoundRoute = {
-    path: '*',
-    component: NotFound
-}
+    {
+        path: '/403',
+        component: Forbidden
+    },
+    {
+        path: '*',
+        component: NotFound
+    }
+]

@@ -1,65 +1,104 @@
 /* 订单管理 */
-import Order from 'pages/order-manage'
-import OrderList from 'pages/order-manage/order-list'
-import ProductManage from 'pages/order-manage/product-manage'
-import ProductionList from 'pages/order-manage/product-manage/production-list'
-import ReviewManage from 'pages/order-manage/product-manage/review-manage'
-import ReturnGoods from 'pages/order-manage/return-goods'
+const Order = () => import('pages/order-manage')
+const OrderList = () => import('pages/order-manage/order-list')
+const ProductManage = () => import('pages/order-manage/product-manage')
+const ProductionList = () =>
+    import('pages/order-manage/product-manage/production-list')
+const ReviewManage = () =>
+    import('pages/order-manage/product-manage/review-manage')
+const ReturnGoods = () => import('pages/order-manage/return-goods')
 
 /* 产品管理 */
-import Goods from 'pages/goods-manage'
-import GoodsList from 'pages/goods-manage/goods-list'
-import GoodsClassify from 'pages/goods-manage/goods-classify'
+const Goods = () => import('pages/goods-manage')
+const GoodsList = () => import('pages/goods-manage/goods-list')
+const GoodsClassify = () => import('pages/goods-manage/goods-classify')
 
+/* 需要权限判断的路由 */
 const dynamicRoutes = [
     {
         path: '/order',
         component: Order,
-        name: '订单管理',
+        name: 'order-manage',
+        meta: {
+            name: '订单管理',
+            icon: 'icon-email'
+        },
         children: [
             {
                 path: 'list',
-                name: '订单列表',
-                component: OrderList
+                name: 'order-list',
+                component: OrderList,
+                meta: {
+                    name: '订单列表',
+                    icon: 'icon-quit'
+                }
             },
             {
                 path: 'product',
-                name: '生产管理',
+                name: 'product-manage',
                 component: ProductManage,
+                meta: {
+                    name: '生产管理',
+                    icon: 'icon-service'
+                },
                 children: [
                     {
                         path: 'list',
-                        name: '生产列表',
-                        component: ProductionList
+                        name: 'product-list',
+                        component: ProductionList,
+                        meta: {
+                            name: '生产列表',
+                            icon: 'icon-nav'
+                        }
                     },
                     {
                         path: 'review',
-                        name: '审核管理',
-                        component: ReviewManage
+                        name: 'review-manage',
+                        component: ReviewManage,
+                        meta: {
+                            name: '审核管理',
+                            icon: 'icon-finance-manage'
+                        }
                     }
                 ]
             },
             {
                 path: 'returnGoods',
-                name: '退货管理',
-                component: ReturnGoods
+                name: 'return-goods',
+                component: ReturnGoods,
+                meta: {
+                    name: '退货管理',
+                    icon: 'icon-product-manage'
+                }
             }
         ]
     },
     {
         path: '/goods',
         component: Goods,
-        name: '产品管理',
+        name: 'goods',
+        meta: {
+            name: '产品管理',
+            icon: 'icon-order-manage'
+        },
         children: [
             {
                 path: 'list',
-                name: '产品列表',
-                component: GoodsList
+                name: 'goods-list',
+                component: GoodsList,
+                meta: {
+                    name: '产品列表',
+                    icon: 'icon-home'
+                }
             },
             {
                 path: 'classify',
-                name: '产品分类',
-                component: GoodsClassify
+                name: 'goods-classify',
+                component: GoodsClassify,
+                meta: {
+                    name: '产品分类',
+                    icon: 'icon-product-manage'
+                }
             }
         ]
     }
