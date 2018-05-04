@@ -72,7 +72,13 @@ export default {
     border-bottom: 1px solid #e5e5e5;
     height: 50px;
     line-height: 50px;
-    position: relative;
+    position: fixed;
+    left: 200px;
+    top: 0;
+    right: 0;
+    background: #fff;
+    z-index: 1000;
+    transition: left 0.25s;
     .toggleNavCollapse {
         display: inline-block;
         margin-left: 8px;

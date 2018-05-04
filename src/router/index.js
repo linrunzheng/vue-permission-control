@@ -36,7 +36,8 @@ export const DynamicRoutes = [
                 component: Home,
                 name: 'home',
                 meta: {
-                    name: '首页'
+                    name: '首页',
+                    icon: 'icon-home'
                 }
             }
         ]
