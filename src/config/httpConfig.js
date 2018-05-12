@@ -2,9 +2,10 @@ import axios from 'axios'
 import store from '@/store/index.js'
 import baseURL from './baseUrl'
 import { Message } from 'element-ui'
+const http = {}
 
 var instance = axios.create({
-    timeout: 30000,
+    timeout: 5000,
     baseURL
 })
 
@@ -22,40 +23,85 @@ instance.interceptors.request.use(
     }
 )
 
-/* axios请求二次封装 */
-instance.get = function(url, data, options) {
+// 响应拦截器即异常处理
+instance.interceptors.response.use(
+    response => {
+        return response.data
+    },
+    err => {
+        if (err && err.response) {
+            switch (err.response.status) {
+            case 400:
+                err.message = '请求出错'
+                break
+            case 401:
+                Message.warning({
+                    message: '授权失败，请重新登录'
+                })
+                store.commit('LOGIN_OUT')
+                setTimeout(() => {
+                    window.location.reload()
+                }, 1000)
+
+                return
+            case 403:
+                err.message = '拒绝访问'
+                break
+            case 404:
+                err.message = '请求错误,未找到该资源'
+                break
+            case 500:
+                err.message = '服务器端出错'
+                break
+            }
+        } else {
+            err.message = '连接服务器失败'
+        }
+        Message.error({
+            message: err.message
+        })
+        return Promise.reject(err.response)
+    }
+)
+
+http.get = function(url, options) {
     return new Promise((resolve, reject) => {
-        axios
-            .get(url, data, options)
-            .then(
-                res => {
-                    var response = res.data
-                    if (response.code === 0) {
-                        resolve(response.data)
-                    } else {
-                        Message.warning(response.message)
-                        /* reject(response.message) */
-                    }
-                },
-                error => {
-                    if (error.response.status === 401) {
-                        Message.warning({
-                            message: '登陆超时,请重新登录'
-                        })
-                        store.commit('LOGIN_OUT')
-                        window.location.reload()
-                    } else {
-                        Message.error({
-                            message: '系统异常'
-                        })
-                    }
-                    reject(error)
+        instance
+            .get(url, options)
+            .then(response => {
+                if (response.code === 0) {
+                    resolve(response.data)
+                } else {
+                    Message.error({
+                        message: response.message
+                    })
+                    reject(response.message)
                 }
-            )
+            })
             .catch(e => {
                 console.log(e)
             })
     })
 }
 
-export default instance
+http.post = function(url, data, options) {
+    return new Promise((resolve, reject) => {
+        instance
+            .post(url, data, options)
+            .then(response => {
+                if (response.code === 0) {
+                    resolve(response.data)
+                } else {
+                    Message.error({
+                        message: response.message
+                    })
+                    reject(response.message)
+                }
+            })
+            .catch(e => {
+                console.log(e)
+            })
+    })
+}
+
+export default http
